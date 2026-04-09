@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ujjwal Gautam — Portfolio</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23e8f0eb'/><text y='72' x='50' text-anchor='middle' font-size='60' font-family='serif' fill='%232d5a3d'>U</text></svg>">
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f2ee;
+      --card: #ffffff;
+      --text: #1a1a1a;
+      --muted: #6b6560;
+      --accent: #2d5a3d;
+      --accent-dim: #e8f0eb;
+      --border: #e2ddd8;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    /* SCROLL INDICATOR */
+    #scroll-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      width: 0%;
+      background: var(--accent);
+      z-index: 999;
+      transition: width 0.1s linear;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      background: rgba(245,242,238,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+      z-index: 100;
+    }
+    .nav-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* HERO */
+    .hero {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 6rem 2rem 4rem;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeUp 0.7s ease forwards 0.1s;
+    }
+    .hero-inner {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .pfp {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center center;
+      border: 2px solid var(--accent);
+      flex-shrink: 0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .pfp:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 0 5px var(--accent-dim);
+    }
+    .hero-tag {
+      display: inline-block;
+      background: var(--accent-dim);
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      line-height: 1.15;
+      margin-bottom: 0.6rem;
+      color: var(--text);
+    }
+    .hero-subtitle {
+      font-size: 1rem;
+      color: var(--muted);
+      min-height: 1.6rem;
+    }
+    #typed-text { color: var(--accent); font-weight: 500; }
+    #cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background: var(--accent);
+      margin-left: 2px;
+      vertical-align: middle;
+      animation: blink 0.8s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .hero-desc {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 1.2rem 0 2rem;
+    }
+    .hero-links { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #234a32; transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+
+    /* SECTIONS */
+    section {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+      border-top: 1px solid var(--border);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    section.visible { opacity: 1; transform: translateY(0); }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+    p { color: var(--muted); font-size: 0.98rem; }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 2rem;
+    }
+    .about-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.2rem 1.4rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .about-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .about-card .label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .about-card .value { font-size: 0.95rem; color: var(--text); font-weight: 400; }
+
+    /* SKILLS */
+    .skills-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 1.5rem; }
+    .skill-tag {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 14px;
+      font-size: 0.88rem;
+      color: var(--text);
+      transition: border-color 0.2s, transform 0.2s;
+      cursor: default;
+    }
+    .skill-tag:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .skill-tag.learning {
+      background: var(--accent-dim);
+      border-color: transparent;
+      color: var(--accent);
+    }
+    .skill-tag.learning:hover { border-color: var(--accent); }
+
+    /* PROJECTS */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 1.5rem;
+    }
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.4rem;
+      transition: border-color 0.2s, transform 0.2s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .project-card .p-tag {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .project-card h3 { font-size: 1rem; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+    .project-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+    .coming-soon { border-style: dashed; opacity: 0.55; cursor: default; }
+    .coming-soon:hover { border-color: var(--border); transform: none; }
+
+    /* CONTACT */
+    .contact-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .contact-box p { font-size: 0.95rem; color: var(--muted); max-width: 380px; }
+
+    /* FOOTER */
+    footer {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    footer p { font-size: 0.82rem; color: var(--muted); }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 560px) {
+      .about-grid, .projects-grid { grid-template-columns: 1fr; }
+      .contact-box { flex-direction: column; }
+      .nav-links { gap: 1.2rem; }
+      .hero-inner { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="scroll-bar"></div>
+
+  <nav>
+    <a class="nav-name" href="#">Ujjwal Gautam</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <img src="pfp.jpeg" alt="Ujjwal Gautam" class="pfp"/>
+      <div class="hero-text">
+        <span class="hero-tag">Open to opportunities</span>
+        <h1>Hi, I'm Ujjwal Gautam</h1>
+        <p class="hero-subtitle"><span id="typed-text"></span><span id="cursor"></span></p>
+      </div>
+    </div>
+    <p class="hero-desc">SEO Intern at Grovention. Aspiring BCA student with a passion for digital marketing and a drive to learn programming.</p>
+    <div class="hero-links">
+      <a href="https://github.com/ugautamxp" target="_blank" class="btn btn-primary">GitHub Profile</a>
+      <a href="https://www.linkedin.com/in/ujjwal-gautam-aligner" target="_blank" class="btn btn-outline">LinkedIn</a>
+      <a href="#contact" class="btn btn-outline">Get in touch</a>
+    </div>
+  </div>
+
+  <section id="about">
+    <div class="section-label">About me</div>
+    <h2>Who I am</h2>
+    <p>I'm currently working as an SEO Intern at Grovention, where I'm gaining real-world experience in digital marketing and search engine optimisation. I'm planning to enrol in a BCA degree program and am actively building my technical skills alongside my professional work.</p>
+    <div class="about-grid">
+      <div class="about-card">
+        <div class="label">Current role</div>
+        <div class="value">SEO Intern at Grovention</div>
+      </div>
+      <div class="about-card">
+        <div class="label">Education</div>
+        <div class="value">Enrolling in BCA (Online)</div>
+      </div>
+      <div class="about-card">
+        <div class="label">Focus area</div>
+        <div class="value">SEO & Digital Marketing</div>
+      </div>
+      <div class="about-card">
+        <div class="label">Location</div>
+        <div class="value">India</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-label">Skills</div>
+    <h2>What I know &amp; learning</h2>
+    <p>Currently building my skillset in SEO while preparing to learn programming through my BCA program.</p>
+    <div class="skills-list">
+      <span class="skill-tag">SEO</span>
+      <span class="skill-tag">Digital Marketing</span>
+      <span class="skill-tag">Keyword Research</span>
+      <span class="skill-tag">On-page Optimisation</span>
+      <span class="skill-tag learning">Python — learning soon</span>
+      <span class="skill-tag learning">HTML — learning soon</span>
+      <span class="skill-tag learning">C / C++ — learning soon</span>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="section-label">Projects</div>
+    <h2>My work</h2>
+    <p>I'll be sharing projects here as I build them. Check back soon!</p>
+    <div class="projects-grid">
+
+      <!-- =============================================
+           TO ADD A PROJECT IN THE FUTURE:
+           Copy the block below, paste it above this
+           comment, and fill in your details.
+
+      <a href="YOUR_PROJECT_LINK" target="_blank" class="project-card">
+        <div class="p-tag">SEO / Python / HTML / etc.</div>
+        <h3>Your Project Name</h3>
+        <p>One sentence about what it does.</p>
+      </a>
+
+      ============================================= -->
+
+      <div class="project-card coming-soon">
+        <div class="p-tag">Coming soon</div>
+        <h3>First project</h3>
+        <p>Working on it — will be posted here once ready.</p>
+      </div>
+      <div class="project-card coming-soon">
+        <div class="p-tag">Coming soon</div>
+        <h3>More projects</h3>
+        <p>Building skills every day. Projects on the way!</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="section-label">Contact</div>
+    <h2>Get in touch</h2>
+    <div class="contact-box">
+      <p>Have a question or want to connect? Feel free to reach out via email or find me on GitHub and LinkedIn.</p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <a href="mailto:u1415926@gmail.com" class="btn btn-primary">Send email</a>
+        <a href="https://github.com/ugautamxp" target="_blank" class="btn btn-outline">GitHub</a>
+        <a href="https://www.linkedin.com/in/ujjwal-gautam-aligner" target="_blank" class="btn btn-outline">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Ujjwal Gautam</p>
+    <p><a href="mailto:u1415926@gmail.com">u1415926@gmail.com</a></p>
+  </footer>
+
+  <script>
+    // SCROLL PROGRESS BAR
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.body.scrollHeight - window.innerHeight;
+      const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      document.getElementById('scroll-bar').style.width = pct + '%';
+    });
+
+    // SCROLL REVEAL
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('section').forEach(s => observer.observe(s));
+
+    // TYPING ANIMATION
+    const phrases = [
+      'SEO Intern at Grovention',
+      'Aspiring BCA Student',
+      'Learning Python & HTML',
+      'Open to opportunities'
+    ];
+    let pi = 0, ci = 0, deleting = false;
+    const el = document.getElementById('typed-text');
+    function type() {
+      const phrase = phrases[pi];
+      if (!deleting) {
+        el.textContent = phrase.slice(0, ++ci);
+        if (ci === phrase.length) { deleting = true; setTimeout(type, 1800); return; }
+      } else {
+        el.textContent = phrase.slice(0, --ci);
+        if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; setTimeout(type, 400); return; }
+      }
+      setTimeout(type, deleting ? 40 : 70);
+    }
+    setTimeout(type, 800);
+  </script>
+
+</body>
+</html>
